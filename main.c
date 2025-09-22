@@ -79,3 +79,18 @@ double validate_results(double x[], double y[], int n,
     printf("\nRMSE = %.6f\n\n", rmse);
     return rmse;
 }
+
+/* (5) Final conclusion */
+void final_conclusion(double rmse) {
+    printf("(6) Conclusion: ");
+    if (rmse < 0.2) {
+        printf("Excellent fit (very small residual error).\n");
+    } else if (rmse < 0.5) {
+        printf("Good fit; residuals are moderate.\n");
+    } else {
+        printf("Fit is weak; consider more data or a different model/noise assumption.\n");
+    }
+}
+
+int
+
