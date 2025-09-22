@@ -18,3 +18,37 @@ void show_linearisation_example(double a, double b) {
     printf("    ln(y) = ln(a) + b*x = %.4f + %.4f*%.1f = %.4f\n\n",
            log(a), b, x_ex, log(y_ex));
 }
+
+/* (2) Perform regression calculation (also generates synthetic data) */
+void perform_regression(double x[], double y[], int n,
+                        double a_true, double b_true,
+                        double *intercept, double *slope) {
+    srand((unsigned int)time(NULL));
+    double xmax = 5.0;
+    for (int i = 0; i < n; ++i) {
+        x[i] = (n == 1) ? 0.0 : (xmax * i) / (n - 1);
+        double yi = a_true * exp(b_true * x[i]);
+        double eps = ((double)rand() / RAND_MAX) * 0.10 - 0.05; // ~[-5%,+5%]
+        yi *= (1.0 + eps);
+        if (yi <= 0.0) yi = 1e-12;
+        y[i] = yi;
+    }
+
+    double sx = 0.0, sy = 0.0, sxx = 0.0, sxy = 0.0;
+    for (int i = 0; i < n; ++i) {
+        double Xi = x[i];
+        double Yi = log(y[i]);
+        sx  += Xi;
+        sy  += Yi;
+        sxx += Xi * Xi;
+        sxy += Xi * Yi;
+    }
+    double denom = n * sxx - sx * sx;
+    if (fabs(denom) < 1e-12) {
+        *slope = 0.0;
+        *intercept = sy / n;
+    } else {
+        *slope = (n * sxy - sx * sy) / denom;
+        *intercept = (sy - (*slope) * sx) / n;
+    }
+}
