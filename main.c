@@ -62,3 +62,20 @@ void present_estimated_parameters(double intercept, double slope,
     printf("True model:      y = %.6f * exp(%.6f * x)\n", a_true, b_true);
     printf("Estimated model: y = %.6f * exp(%.6f * x)\n\n", *a_hat, *b_hat);
 }
+
+/* (4) Validate results + show residuals (returns RMSE) */
+double validate_results(double x[], double y[], int n,
+                        double a_hat, double b_hat) {
+    double ss = 0.0;
+    printf(" i      x[i]         y[i]        fitted_y       residual\n");
+    for (int i = 0; i < n; ++i) {
+        double fitted = a_hat * exp(b_hat * x[i]);
+        double resid  = y[i] - fitted;
+        ss += resid * resid;
+        printf("%2d   %10.6f   %10.6f   %10.6f   %10.6f\n",
+               i, x[i], y[i], fitted, resid);
+    }
+    double rmse = sqrt(ss / n);
+    printf("\nRMSE = %.6f\n\n", rmse);
+    return rmse;
+}
