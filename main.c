@@ -52,3 +52,13 @@ void perform_regression(double x[], double y[], int n,
         *intercept = (sy - (*slope) * sx) / n;
     }
 }
+
+/* (3) Present estimated parameters */
+void present_estimated_parameters(double intercept, double slope,
+                                  double a_true, double b_true,
+                                  double *a_hat, double *b_hat) {
+    *a_hat = exp(intercept);
+    *b_hat = slope;
+    printf("True model:      y = %.6f * exp(%.6f * x)\n", a_true, b_true);
+    printf("Estimated model: y = %.6f * exp(%.6f * x)\n\n", *a_hat, *b_hat);
+}
