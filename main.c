@@ -92,3 +92,25 @@ void final_conclusion(double rmse) {
     }
 }
 
+int main(void) {
+    int n;
+    double a_true, b_true;
+    double x[50], y[50];
+
+    define_problem(&n, &a_true, &b_true);                 // (1)
+    show_linearisation_example(a_true, b_true);           // (2)
+
+    double intercept, slope;
+    perform_regression(x, y, n, a_true, b_true,           // (3)
+                       &intercept, &slope);
+
+    double a_hat, b_hat;
+    present_estimated_parameters(intercept, slope,         // (4)
+                                 a_true, b_true,
+                                 &a_hat, &b_hat);
+
+    double rmse = validate_results(x, y, n, a_hat, b_hat); // (5)
+    final_conclusion(rmse);                                 // (6)
+
+    return 0;
+}
