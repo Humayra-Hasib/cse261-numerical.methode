@@ -92,5 +92,3 @@ void final_conclusion(double rmse) {
     }
 }
 
-int
-
